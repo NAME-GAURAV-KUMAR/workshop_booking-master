@@ -1,0 +1,237 @@
+{% extends 'workshop_app/base.html' %}
+{% load static %}
+
+{% block title %}
+    Login - FOSSEE Workshops
+{% endblock %}
+
+{% block extra-dependencies %}
+    <!-- Custom Login Page Styles -->
+    <link rel="stylesheet" href="{% static 'workshop_app/css/auth.css' %}" type="text/css"/>
+{% endblock %}
+
+{% block content %}
+<div class="auth-wrapper">
+    <div class="auth-background">
+        <div class="auth-overlay"></div>
+        <!-- Animated background elements -->
+        <div class="floating-shapes">
+            <div class="shape shape-1"></div>
+            <div class="shape shape-2"></div>
+            <div class="shape shape-3"></div>
+            <div class="shape shape-4"></div>
+            <div class="shape shape-5"></div>
+        </div>
+    </div>
+    
+    <div class="container-fluid h-100">
+        <div class="row h-100 align-items-center justify-content-center">
+            <!-- Left side - Welcome content -->
+            <div class="col-lg-6 d-none d-lg-flex flex-column justify-content-center auth-welcome">
+                <div class="welcome-content" data-aos="fade-right">
+                    <h1 class="welcome-title">
+                        <i class="fa fa-graduation-cap text-primary"></i>
+                        Welcome Back!
+                    </h1>
+                    <p class="welcome-description">
+                        Sign in to your FOSSEE Workshops account and continue your learning journey.
+                        Access your dashboard, explore workshops, and enhance your skills.
+                    </p>
+                    <div class="features-list">
+                        <div class="feature-item">
+                            <i class="fa fa-check-circle text-success"></i>
+                            <span>Access to all workshops</span>
+                        </div>
+                        <div class="feature-item">
+                            <i class="fa fa-check-circle text-success"></i>
+                            <span>Track your progress</span>
+                        </div>
+                        <div class="feature-item">
+                            <i class="fa fa-check-circle text-success"></i>
+                            <span>Get certificates</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Right side - Login form -->
+            <div class="col-lg-6 col-md-8 col-sm-10">
+                <div class="auth-card" data-aos="fade-left">
+                    <div class="auth-header">
+                        <h2 class="auth-title">
+                            <i class="fa fa-sign-in text-primary"></i>
+                            Sign In
+                        </h2>
+                        <p class="auth-subtitle">Enter your credentials to access your account</p>
+                    </div>
+                    
+                    <form class="auth-form" method="post" novalidate>
+                        {% csrf_token %}
+                        
+                        <!-- Error Messages -->
+                        {% if form.errors %}
+                            <div class="alert-container" data-aos="shake">
+                                {% for field in form %}
+                                    {% for error in field.errors %}
+                                        <div class="alert alert-danger alert-modern">
+                                            <i class="fa fa-exclamation-triangle"></i>
+                                            <span>{{ error|escape }}</span>
+                                            <button type="button" class="alert-close" onclick="this.parentElement.style.display='none'">
+                                                <i class="fa fa-times"></i>
+                                            </button>
+                                        </div>
+                                    {% endfor %}
+                                {% endfor %}
+                                {% for error in form.non_field_errors %}
+                                    <div class="alert alert-danger alert-modern">
+                                        <i class="fa fa-exclamation-triangle"></i>
+                                        <span>{{ error|escape }}</span>
+                                        <button type="button" class="alert-close" onclick="this.parentElement.style.display='none'">
+                                            <i class="fa fa-times"></i>
+                                        </button>
+                                    </div>
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                        
+                        <!-- Username Field -->
+                        <div class="form-group-modern">
+                            <div class="input-wrapper">
+                                <i class="fa fa-user input-icon"></i>
+                                <input type="text" 
+                                       name="username" 
+                                       id="id_username"
+                                       class="form-control-modern" 
+                                       placeholder="Enter your username"
+                                       required
+                                       autocomplete="username">
+                                <label for="id_username" class="form-label-modern">Username</label>
+                            </div>
+                        </div>
+                        
+                        <!-- Password Field -->
+                        <div class="form-group-modern">
+                            <div class="input-wrapper">
+                                <i class="fa fa-lock input-icon"></i>
+                                <input type="password" 
+                                       name="password" 
+                                       id="id_password"
+                                       class="form-control-modern" 
+                                       placeholder="Enter your password"
+                                       required
+                                       autocomplete="current-password">
+                                <label for="id_password" class="form-label-modern">Password</label>
+                                <button type="button" class="password-toggle" onclick="togglePassword('id_password', this)">
+                                    <i class="fa fa-eye"></i>
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <!-- Remember Me & Forgot Password -->
+                        <div class="form-options">
+                            <label class="checkbox-wrapper">
+                                <input type="checkbox" name="remember_me">
+                                <span class="checkmark"></span>
+                                Remember me
+                            </label>
+                            <a href="{% url 'password_reset' %}" class="forgot-password-link">
+                                <i class="fa fa-question-circle"></i>
+                                Forgot password?
+                            </a>
+                        </div>
+                        
+                        <!-- Submit Button -->
+                        <button type="submit" class="btn-auth btn-auth-primary">
+                            <span class="btn-content">
+                                <i class="fa fa-sign-in"></i>
+                                Sign In
+                            </span>
+                            <div class="btn-loader">
+                                <div class="spinner"></div>
+                            </div>
+                        </button>
+                        
+                        <!-- Divider -->
+                        <div class="auth-divider">
+                            <span>New to FOSSEE Workshops?</span>
+                        </div>
+                        
+                        <!-- Sign Up Link -->
+                        <div class="auth-footer">
+                            <a href="{% url 'workshop_app:register' %}" class="btn-auth btn-auth-outline">
+                                <i class="fa fa-user-plus"></i>
+                                Create Account
+                            </a>
+                        </div>
+                    </form>
+                </div>
+                
+                <!-- Mobile welcome message -->
+                <div class="mobile-welcome d-lg-none text-center mt-4">
+                    <p class="text-muted">
+                        <i class="fa fa-graduation-cap"></i>
+                        Welcome to FOSSEE Workshops
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra-custom-scripts %}
+<script>
+$(document).ready(function() {
+    // Initialize AOS for animations
+    if (typeof AOS !== 'undefined') {
+        AOS.init({
+            duration: 800,
+            easing: 'ease-in-out',
+            once: true
+        });
+    }
+    
+    // Form validation
+    $('.auth-form').on('submit', function(e) {
+        const submitBtn = $(this).find('.btn-auth-primary');
+        submitBtn.addClass('loading');
+        
+        // Reset after 3 seconds if no response
+        setTimeout(() => {
+            submitBtn.removeClass('loading');
+        }, 3000);
+    });
+    
+    // Input focus effects
+    $('.form-control-modern').on('focus blur', function() {
+        $(this).parent().toggleClass('focused', $(this).is(':focus'));
+    });
+    
+    // Check if inputs have values on page load
+    $('.form-control-modern').each(function() {
+        if ($(this).val()) {
+            $(this).parent().addClass('has-value');
+        }
+    });
+    
+    // Update has-value class on input
+    $('.form-control-modern').on('input', function() {
+        $(this).parent().toggleClass('has-value', $(this).val().length > 0);
+    });
+});
+
+// Toggle password visibility
+function togglePassword(inputId, button) {
+    const input = document.getElementById(inputId);
+    const icon = button.querySelector('i');
+    
+    if (input.type === 'password') {
+        input.type = 'text';
+        icon.className = 'fa fa-eye-slash';
+    } else {
+        input.type = 'password';
+        icon.className = 'fa fa-eye';
+    }
+}
+</script>
+{% endblock %}

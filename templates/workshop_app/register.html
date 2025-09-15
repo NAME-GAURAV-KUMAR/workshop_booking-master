@@ -1,0 +1,519 @@
+{% extends 'workshop_app/base.html' %}
+{% load static %}
+
+{% block title %}
+    Register - FOSSEE Workshops
+{% endblock %}
+
+{% block extra-dependencies %}
+    <!-- Custom Auth Page Styles -->
+    <link rel="stylesheet" href="{% static 'workshop_app/css/auth.css' %}" type="text/css"/>
+{% endblock %}
+
+{% block content %}
+<div class="auth-wrapper">
+    <div class="auth-background">
+        <div class="auth-overlay"></div>
+        <!-- Animated background elements -->
+        <div class="floating-shapes">
+            <div class="shape shape-1"></div>
+            <div class="shape shape-2"></div>
+            <div class="shape shape-3"></div>
+            <div class="shape shape-4"></div>
+            <div class="shape shape-5"></div>
+        </div>
+    </div>
+    
+    <div class="container-fluid h-100">
+        <div class="row h-100 align-items-center justify-content-center">
+            <!-- Left side - Welcome content -->
+            <div class="col-lg-5 d-none d-lg-flex flex-column justify-content-center auth-welcome">
+                <div class="welcome-content" data-aos="fade-right">
+                    <h1 class="welcome-title">
+                        <i class="fa fa-user-plus text-primary"></i>
+                        Join FOSSEE!
+                    </h1>
+                    <p class="welcome-description">
+                        Create your account and start your journey with FOSSEE Workshops.
+                        Get access to expert-led workshops and enhance your technical skills.
+                    </p>
+                    <div class="features-list">
+                        <div class="feature-item">
+                            <i class="fa fa-check-circle text-success"></i>
+                            <span>Free registration</span>
+                        </div>
+                        <div class="feature-item">
+                            <i class="fa fa-check-circle text-success"></i>
+                            <span>Access to all workshops</span>
+                        </div>
+                        <div class="feature-item">
+                            <i class="fa fa-check-circle text-success"></i>
+                            <span>Get certified</span>
+                        </div>
+                        <div class="feature-item">
+                            <i class="fa fa-check-circle text-success"></i>
+                            <span>Expert guidance</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Right side - Register form -->
+            <div class="col-lg-7 col-md-10 col-sm-12">
+                <div class="auth-card register-card" data-aos="fade-left">
+                    <div class="auth-header">
+                        <h2 class="auth-title">
+                            <i class="fa fa-user-plus text-primary"></i>
+                            Create Account
+                        </h2>
+                        <p class="auth-subtitle">Fill in your details to get started</p>
+                    </div>
+                    
+                    <!-- Progress Indicator -->
+                    <div class="progress-indicator">
+                        <div class="progress-step active" data-step="1">
+                            <div class="step-number">1</div>
+                            <div class="step-title">Personal Info</div>
+                        </div>
+                        <div class="progress-step" data-step="2">
+                            <div class="step-number">2</div>
+                            <div class="step-title">Contact Details</div>
+                        </div>
+                        <div class="progress-step" data-step="3">
+                            <div class="step-number">3</div>
+                            <div class="step-title">Professional Info</div>
+                        </div>
+                    </div>
+                    
+                    <form class="auth-form register-form" method="post" novalidate>
+                        {% csrf_token %}
+                        
+                        <!-- Error Messages -->
+                        {% if form.errors %}
+                            <div class="alert-container" data-aos="shake">
+                                {% for field, errors in form.errors.items %}
+                                    {% for error in errors %}
+                                        <div class="alert alert-danger alert-modern">
+                                            <i class="fa fa-exclamation-triangle"></i>
+                                            <span><strong>{{ field|title }}:</strong> {{ error }}</span>
+                                            <button type="button" class="alert-close" onclick="this.parentElement.style.display='none'">
+                                                <i class="fa fa-times"></i>
+                                            </button>
+                                        </div>
+                                    {% endfor %}
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                        
+                        <!-- Step 1: Personal Information -->
+                        <div class="form-step active" data-step="1">
+                            <h4 class="step-heading">
+                                <i class="fa fa-user"></i>
+                                Personal Information
+                            </h4>
+                            
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group-modern">
+                                        <div class="input-wrapper">
+                                            <i class="fa fa-user input-icon"></i>
+                                            {{ form.first_name }}
+                                            <label for="{{ form.first_name.id_for_label }}" class="form-label-modern">{{ form.first_name.label }} *</label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group-modern">
+                                        <div class="input-wrapper">
+                                            <i class="fa fa-user input-icon"></i>
+                                            {{ form.last_name }}
+                                            <label for="{{ form.last_name.id_for_label }}" class="form-label-modern">{{ form.last_name.label }} *</label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="form-group-modern">
+                                <div class="input-wrapper">
+                                    <i class="fa fa-at input-icon"></i>
+                                    {{ form.username }}
+                                    <label for="{{ form.username.id_for_label }}" class="form-label-modern">{{ form.username.label }} *</label>
+                                </div>
+                            </div>
+                            
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group-modern">
+                                        <div class="input-wrapper">
+                                            <i class="fa fa-lock input-icon"></i>
+                                            {{ form.password }}
+                                            <label for="{{ form.password.id_for_label }}" class="form-label-modern">{{ form.password.label }} *</label>
+                                            <button type="button" class="password-toggle" onclick="togglePassword('{{ form.password.id_for_label }}', this)">
+                                                <i class="fa fa-eye"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group-modern">
+                                        <div class="input-wrapper">
+                                            <i class="fa fa-lock input-icon"></i>
+                                            {{ form.confirm_password }}
+                                            <label for="{{ form.confirm_password.id_for_label }}" class="form-label-modern">{{ form.confirm_password.label }} *</label>
+                                            <button type="button" class="password-toggle" onclick="togglePassword('{{ form.confirm_password.id_for_label }}', this)">
+                                                <i class="fa fa-eye"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Step 2: Contact Details -->
+                        <div class="form-step" data-step="2">
+                            <h4 class="step-heading">
+                                <i class="fa fa-envelope"></i>
+                                Contact Details
+                            </h4>
+                            
+                            <div class="form-group-modern">
+                                <div class="input-wrapper">
+                                    <i class="fa fa-envelope input-icon"></i>
+                                    {{ form.email }}
+                                    <label for="{{ form.email.id_for_label }}" class="form-label-modern">{{ form.email.label }} *</label>
+                                </div>
+                            </div>
+                            
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group-modern">
+                                        <div class="input-wrapper">
+                                            <i class="fa fa-phone input-icon"></i>
+                                            {{ form.phone_number }}
+                                            <label for="{{ form.phone_number.id_for_label }}" class="form-label-modern">{{ form.phone_number.label }} *</label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group-modern">
+                                        <div class="input-wrapper">
+                                            <i class="fa fa-map-marker input-icon"></i>
+                                            {{ form.state }}
+                                            <label for="{{ form.state.id_for_label }}" class="form-label-modern">{{ form.state.label }} *</label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Step 3: Professional Information -->
+                        <div class="form-step" data-step="3">
+                            <h4 class="step-heading">
+                                <i class="fa fa-briefcase"></i>
+                                Professional Information
+                            </h4>
+                            
+                            <div class="form-group-modern">
+                                <div class="input-wrapper">
+                                    <i class="fa fa-university input-icon"></i>
+                                    {{ form.institute }}
+                                    <label for="{{ form.institute.id_for_label }}" class="form-label-modern">{{ form.institute.label }} *</label>
+                                </div>
+                            </div>
+                            
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group-modern">
+                                        <div class="input-wrapper">
+                                            <i class="fa fa-briefcase input-icon"></i>
+                                            {{ form.department }}
+                                            <label for="{{ form.department.id_for_label }}" class="form-label-modern">{{ form.department.label }} *</label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group-modern">
+                                        <div class="input-wrapper">
+                                            <i class="fa fa-user-circle input-icon"></i>
+                                            {{ form.designation }}
+                                            <label for="{{ form.designation.id_for_label }}" class="form-label-modern">{{ form.designation.label }} *</label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Terms and Conditions -->
+                            <div class="form-group-modern">
+                                <label class="checkbox-wrapper">
+                                    <input type="checkbox" name="terms_accepted" id="terms_accepted" required>
+                                    <span class="checkmark"></span>
+                                    I agree to the 
+                                    <a href="#" data-toggle="modal" data-target="#termsModal">Terms and Conditions</a> 
+                                    and 
+                                    <a href="#" data-toggle="modal" data-target="#privacyModal">Privacy Policy</a>
+                                </label>
+                            </div>
+                        </div>
+                        
+                        <!-- Form Navigation -->
+                        <div class="form-navigation">
+                            <button type="button" class="btn-auth btn-auth-outline btn-prev" style="display: none;">
+                                <i class="fa fa-arrow-left"></i>
+                                Previous
+                            </button>
+                            
+                            <button type="button" class="btn-auth btn-auth-primary btn-next">
+                                Next
+                                <i class="fa fa-arrow-right"></i>
+                            </button>
+                            
+                            <button type="submit" class="btn-auth btn-auth-primary btn-submit" style="display: none;">
+                                <span class="btn-content">
+                                    <i class="fa fa-user-plus"></i>
+                                    Create Account
+                                </span>
+                                <div class="btn-loader">
+                                    <div class="spinner"></div>
+                                </div>
+                            </button>
+                        </div>
+                        
+                        <!-- Divider -->
+                        <div class="auth-divider">
+                            <span>Already have an account?</span>
+                        </div>
+                        
+                        <!-- Login Link -->
+                        <div class="auth-footer">
+                            <a href="{% url 'workshop_app:login' %}" class="btn-auth btn-auth-outline">
+                                <i class="fa fa-sign-in"></i>
+                                Sign In
+                            </a>
+                        </div>
+                    </form>
+                </div>
+                
+                <!-- Mobile welcome message -->
+                <div class="mobile-welcome d-lg-none text-center mt-4">
+                    <p class="text-muted">
+                        <i class="fa fa-graduation-cap"></i>
+                        Join FOSSEE Workshops Today
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Terms Modal -->
+<div class="modal fade" id="termsModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Terms and Conditions</h5>
+                <button type="button" class="close" data-dismiss="modal">
+                    <span>&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>By registering for FOSSEE Workshops, you agree to:</p>
+                <ul>
+                    <li>Provide accurate and complete information</li>
+                    <li>Use the platform responsibly and ethically</li>
+                    <li>Respect intellectual property rights</li>
+                    <li>Follow workshop guidelines and schedules</li>
+                    <li>Maintain confidentiality of any proprietary information shared</li>
+                </ul>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Privacy Modal -->
+<div class="modal fade" id="privacyModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Privacy Policy</h5>
+                <button type="button" class="close" data-dismiss="modal">
+                    <span>&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>We collect and use your information to:</p>
+                <ul>
+                    <li>Provide access to workshop materials and resources</li>
+                    <li>Communicate about workshops and updates</li>
+                    <li>Issue certificates and track progress</li>
+                    <li>Improve our services and user experience</li>
+                </ul>
+                <p>We do not share your personal information with third parties without consent.</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra-custom-scripts %}
+<script>
+let currentStep = 1;
+const totalSteps = 3;
+
+$(document).ready(function() {
+    // Initialize AOS for animations
+    if (typeof AOS !== 'undefined') {
+        AOS.init({
+            duration: 800,
+            easing: 'ease-in-out',
+            once: true
+        });
+    }
+    
+    // Add form-control-modern class to all form inputs
+    $('.register-form input, .register-form select, .register-form textarea').addClass('form-control-modern');
+    
+    // Input focus effects
+    $('.form-control-modern').on('focus blur', function() {
+        $(this).parent().toggleClass('focused', $(this).is(':focus'));
+    });
+    
+    // Check if inputs have values on page load
+    $('.form-control-modern').each(function() {
+        if ($(this).val()) {
+            $(this).parent().addClass('has-value');
+        }
+    });
+    
+    // Update has-value class on input
+    $('.form-control-modern').on('input change', function() {
+        $(this).parent().toggleClass('has-value', $(this).val().length > 0);
+    });
+    
+    // Step navigation
+    $('.btn-next').click(function() {
+        if (validateCurrentStep()) {
+            nextStep();
+        }
+    });
+    
+    $('.btn-prev').click(function() {
+        prevStep();
+    });
+    
+    // Form submission
+    $('.register-form').on('submit', function(e) {
+        if (!validateCurrentStep() || !$('#terms_accepted').is(':checked')) {
+            e.preventDefault();
+            if (!$('#terms_accepted').is(':checked')) {
+                alert('Please accept the terms and conditions to continue.');
+            }
+            return false;
+        }
+        
+        const submitBtn = $(this).find('.btn-submit');
+        submitBtn.addClass('loading');
+    });
+});
+
+function validateCurrentStep() {
+    const currentStepDiv = $(`.form-step[data-step="${currentStep}"]`);
+    const requiredFields = currentStepDiv.find('input[required], select[required]');
+    let isValid = true;
+    
+    requiredFields.each(function() {
+        const field = $(this);
+        const wrapper = field.closest('.input-wrapper');
+        
+        if (!field.val() || field.val().trim() === '') {
+            wrapper.addClass('error');
+            isValid = false;
+        } else {
+            wrapper.removeClass('error');
+        }
+    });
+    
+    // Additional validation for step 1 (passwords match)
+    if (currentStep === 1) {
+        const password = $('#id_password').val();
+        const confirmPassword = $('#id_confirm_password').val();
+        
+        if (password !== confirmPassword) {
+            $('#id_confirm_password').closest('.input-wrapper').addClass('error');
+            isValid = false;
+        }
+    }
+    
+    return isValid;
+}
+
+function nextStep() {
+    if (currentStep < totalSteps) {
+        // Hide current step
+        $(`.form-step[data-step="${currentStep}"]`).removeClass('active').hide();
+        $(`.progress-step[data-step="${currentStep}"]`).removeClass('active').addClass('completed');
+        
+        currentStep++;
+        
+        // Show next step
+        $(`.form-step[data-step="${currentStep}"]`).addClass('active').show();
+        $(`.progress-step[data-step="${currentStep}"]`).addClass('active');
+        
+        updateNavigationButtons();
+    }
+}
+
+function prevStep() {
+    if (currentStep > 1) {
+        // Hide current step
+        $(`.form-step[data-step="${currentStep}"]`).removeClass('active').hide();
+        $(`.progress-step[data-step="${currentStep}"]`).removeClass('active');
+        
+        currentStep--;
+        
+        // Show previous step
+        $(`.form-step[data-step="${currentStep}"]`).addClass('active').show();
+        $(`.progress-step[data-step="${currentStep}"]`).removeClass('completed').addClass('active');
+        
+        updateNavigationButtons();
+    }
+}
+
+function updateNavigationButtons() {
+    // Show/hide previous button
+    if (currentStep > 1) {
+        $('.btn-prev').show();
+    } else {
+        $('.btn-prev').hide();
+    }
+    
+    // Show/hide next/submit buttons
+    if (currentStep === totalSteps) {
+        $('.btn-next').hide();
+        $('.btn-submit').show();
+    } else {
+        $('.btn-next').show();
+        $('.btn-submit').hide();
+    }
+}
+
+// Toggle password visibility
+function togglePassword(inputId, button) {
+    const input = document.getElementById(inputId);
+    const icon = button.querySelector('i');
+    
+    if (input.type === 'password') {
+        input.type = 'text';
+        icon.className = 'fa fa-eye-slash';
+    } else {
+        input.type = 'password';
+        icon.className = 'fa fa-eye';
+    }
+}
+</script>
+{% endblock %}
