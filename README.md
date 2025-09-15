@@ -29,6 +29,8 @@ This project has been completely redesigned with modern UI/UX principles to prov
 
 #### **Login Page Enhancement**
 - **Before**: Basic Bootstrap form
+  ![WhatsApp Image 2025-09-15 at 23 43 11_51a16799](https://github.com/user-attachments/assets/0dd3348f-397c-48c0-804e-86c73ab7961b)
+
 - **After**: Split-screen design featuring:
   - Welcome section with feature benefits
   - Animated floating shapes background
@@ -41,6 +43,8 @@ This project has been completely redesigned with modern UI/UX principles to prov
 
 #### **Registration Page Overhaul**
 - **Before**: Single-page table-based form
+- ![WhatsApp Image 2025-09-15 at 23 43 29_3a5716e9](https://github.com/user-attachments/assets/2c30fb05-9cf3-4041-b891-309a99ce0945)
+
 - **After**: Multi-step wizard with:
   - Progress indicator showing completion steps
   - Three organized sections (Personal, Contact, Professional)
